@@ -10,6 +10,16 @@ const { CATEGORIES, ENTRIES, LIB_TREE } = new Function(`${src}\nreturn {CATEGORI
 
 const SOCIAL_KEYS = new Set(["x", "telegram", "discord", "reddit", "github", "gitlab", "codeberg", "youtube", "medium", "website", "appstore", "play", "download", "network", "live"]);
 const HTTPS = /^https:\/\/[a-z0-9.-]+\.[a-z]{2,}(?:[/?#][^\s]*)?$/i;
+const LOGO_KEY = /^[a-z0-9-]+$/;
+
+function assertLogoFile(logo, label) {
+  assert.match(logo, LOGO_KEY, `${label}: logo key should be a file slug`);
+  const file = join(root, "assets", "logos", `${logo}.png`);
+  assert.ok(existsSync(file), `${label}: missing assets/logos/${logo}.png`);
+  const bytes = readFileSync(file);
+  assert.ok(bytes.length > 80 && bytes.length < 30000, `${label}: logo file size ${bytes.length}`);
+  assert.equal(bytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", `${label}: logo is not a PNG`);
+}
 const BANNED = /jQrgenCorp|Nordic Crypto AS|jQrgen/i;
 const PHONE = /(?:\+\d{1,3}[\s-]?)?(?:\(?\d{2,4}\)?[\s-]?)?\d{3}[\s-]?\d{4,}/;
 
@@ -52,10 +62,7 @@ test("directory entries have required fields and https URLs", () => {
     assert.doesNotMatch(`${name} ${desc}`, PHONE, `${name}: looks like a phone number`);
     httpsUrl(url, name);
     assert.equal(typeof logo, "string", `${name}: logo key should be a string`);
-    if (logo) {
-      const file = join(root, "assets", "logos", `${logo}.png`);
-      assert.ok(existsSync(file), `${name}: missing assets/logos/${logo}.png`);
-    }
+    if (logo) assertLogoFile(logo, name);
     if (flag !== undefined) assert.equal(flag, "warn", `${name}: unexpected flag ${flag}`);
     assert.ok(!names.has(name), `duplicate name ${name}`);
     names.add(name);
@@ -85,6 +92,7 @@ test("library tree edges cite a public source", () => {
   for (const node of LIB_TREE.nodes) {
     assert.ok(node.id && node.name, "library node needs id and name");
     if (node.url) httpsUrl(node.url, `library ${node.name}`);
+    if (node.logo) assertLogoFile(node.logo, `library ${node.name}`);
   }
   assert.ok(LIB_TREE.edges.length > 0, "expected verified library edges");
   for (const edge of LIB_TREE.edges) {
