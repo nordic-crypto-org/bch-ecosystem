@@ -18,6 +18,7 @@ const ENTRIES=[
 ["wallets", "Paytaca Paper Wallet", "Paper-wallet generator. The repository describes it for Bitcoin Cash and CashTokens.", "https://paperwallet.paytaca.com/", "paytaca-paper-wallet", {github:"https://github.com/paytaca/paperwallet"}],
 ["wallets", "CashStamps", "Interface for creating BCH wallets that can be handed out and reclaimed, as described in the CashStamps repository.", "https://stamps.cash/", "cashstamps", {github:"https://github.com/harvmaster/CashStamps"}],
 ["wallets", "cashaddress.org", "Browser tool for Bitcoin Cash cashaddr addresses. The page ships the bchaddr library.", "https://cashaddress.org/", "cashaddress-org", {github:"https://github.com/theantnest/bccaddress"}],
+["wallets", "Ownbit", "Mobile wallet for Bitcoin Cash with self-custody, QR-based offline phone signing and multisignature support.", "https://ownbit.io/en/bitcoin-cash-multisig-wallet/", "", {}],
 // payments
 ["payments", "Prompt.cash", "Bitcoin Cash payment processor. The site describes a PayPal-compatible API layer for merchants.", "https://prompt.cash/", "prompt-cash", {}],
 ["payments", "PayButton", "Payment button whose site says a short snippet can accept XEC or BCH.", "https://paybutton.org/", "paybutton", {github:"https://github.com/PayButton/paybutton"}],
